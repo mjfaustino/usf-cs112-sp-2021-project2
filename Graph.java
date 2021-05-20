@@ -1,6 +1,7 @@
 package projectPart3;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -16,10 +17,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,10 +42,11 @@ import projectPart2.KNNPredictor;
 
 public class Graph extends JPanel {
 	
-	
+	static JLabel l;
     private static final long serialVersionUID = 1L;
     private int labelPadding = 40;
     private Color lineColor = new Color(255, 255, 254);
+    
 
     // TODO: Add point colors for each type of data point
     private Color pointColor = new Color(255, 0, 255);
@@ -265,6 +278,68 @@ public class Graph extends JPanel {
 		frame.add(accuracy);
 		JLabel precision = new JLabel("Precision:" + (decFormat.format(obj.getPrecision(mainPanel.data))));
 		frame.add(precision);
+		
+//		TODO: PROJECT PART 4 has all "TODOs"
+//		TODO: 1. Below the graph, first add a JLabel that states 
+//		“Choose the majority value” and place it in the center. 
+		l = new JLabel();
+//	    l.setText("Choose the majority value");
+//		l.setHorizontalAlignment(JLabel.CENTER);
+//	    JPanel p = new JPanel(new BorderLayout());
+        JPanel p = new JPanel(new BorderLayout());
+	    p.add(mainPanel, BorderLayout.NORTH);
+//	    NOTE: Make the frame on a full screen in order to see the
+//	    "Choose the majority value" on the bottom of the graph
+	    p.add(new JLabel("Choose the majority value", JLabel.CENTER));
+//	    p.add(l);
+	    
+//	    TODO: 2. Below the label, add a HORIZONTALJSlider.
+	    JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 25, 5);
+	    
+	    slider.setMinorTickSpacing(1);
+	    slider.setMajorTickSpacing(5);
+	    slider.setPaintTicks(true);
+	    slider.setPaintLabels(true);
+	    JPanel panel = new JPanel();
+	    panel.add(slider, new JLabel(BorderLayout.SOUTH));
+	    frame.add(panel);
+	    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	    
+//	    TODO: 4. Add an action listener to the button. 
+//	    Within the action listener (hint : within the method called 
+//	    publicvoidactionPerformed(ActionEvent e)), add the following feature.
+//	    a. Read the value from the JSlider above.
+	    int sliderValue = slider.getValue();
+	    JOptionPane.showMessageDialog(slider,
+	     " "
+	      + "The Value from the slider is: " + sliderValue,
+	     " ",
+	     JOptionPane.INFORMATION_MESSAGE);
+	    panel.add(slider, new ActionListener()
+	    {
+	      public void actionPerformed(ActionEvent e)
+	      
+	      {
+//	   	b. Given the value, multiply it by 2and add 1 to make it an odd number and 
+//	    assign it to a variable. This is to make the values an odd number. 
+	    	 int r = (int)(sliderValue * 2) + 1;   
+	    	 System.out.println(r);
+	      }
+	    });
+	    
+	    
+	    
+	    
+//	    TODO: 3.Create a JButton below that says “Run Test”
+	    JPanel southPanel = new JPanel(new BorderLayout());
+	    JButton b = new JButton("Run Test");  
+//	    b.setBounds(50,100,95,30); 
+	    southPanel.add(b, BorderLayout.CENTER);
+	    mainPanel.add(southPanel, BorderLayout.CENTER);
+//	    frame.add(b);  
+//	    frame.setLayout(null);  
+	   
+	    frame.add(p);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -277,9 +352,12 @@ public class Graph extends JPanel {
         contentPane.setLayout(new FlowLayout(FlowLayout.CENTER));
         MouseListenerUpdated coord = new MouseListenerUpdated(label);
         mainPanel.addMouseListener(coord);
-        
-        
+       
     }
+    
+    
+    
+  
     
 
     
